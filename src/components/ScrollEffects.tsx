@@ -174,12 +174,12 @@ export const ScrollEffects: React.FC = () => {
           <div
             className={`rounded-full flex items-center justify-center transition-all duration-200 ${
               cursorActive
-                ? 'w-16 h-16 -ml-8 -mt-8 bg-[#005bc0]/85 text-white backdrop-blur-sm border border-white/40 shadow-xl scale-100'
-                : 'w-4 h-4 -ml-2 -mt-2 bg-[#005bc0]/50 border border-white/60 scale-75'
+                ? 'w-16 h-16 -ml-8 -mt-8 bg-white/30 backdrop-blur-md border border-[#005bc0]/20 shadow-[0_4_20px_rgba(0,0,0,0.1)] scale-100'
+                : 'w-6 h-6 -ml-3 -mt-3 bg-white/20 backdrop-blur-sm border border-[#005bc0]/30 shadow-sm scale-75'
             }`}
           >
             {cursorLabel && cursorActive && (
-              <span className="text-[10px] font-heading font-black tracking-tight uppercase whitespace-nowrap px-1">
+              <span className="text-[10px] text-[#081224] font-heading font-black tracking-tight uppercase whitespace-nowrap px-1">
                 {cursorLabel}
               </span>
             )}
