@@ -14,9 +14,22 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenTurno, onReplayInt
   const [isHovered, setIsHovered] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Fotografía cinematográfica oficial: Volkswagen Nuevo Tera SUVW
-  const TERA_IMAGE_URL =
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCm2-hltm0IQKD_8gqUWLkhz2aNmgFopJJUdimrGSxdBUoSU1tSp3K_2NbUws57V_GBgdaqEjF9pYY2Y8e9QsW8-TRSoe-OpKmd0c2x7E32nxtbhkXYd2fw1DqY7cQgDKRxNopkE7VRJHauLESEEJBmK2K98bk77IbbImzh5nLHP_WuXect7jRbhsG92pF8Qb9BkaqZAWhJUEQ0dFogcXd9gyUqBgx4frTi0pn2p9U734j3DTAZn1SEnVIb1TPVx4y7DTZMY3Tp0NjWxj4";
+  // Fotografías en HD y de las instalaciones
+  const HERO_IMAGES = [
+    "https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=2560&q=80",
+    "/Entrada.jpg",
+    "/Boxes%20de%20Servicio.JPG",
+    "/Chapa%20y%20carrocer%C3%ADa.JPG",
+    "/Área%20de%20Pintura%205.jpg"
+  ];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex(prev => (prev + 1) % HERO_IMAGES.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
 
   // 1. Mouse tracking directo, sutil y preciso
   useEffect(() => {
@@ -75,7 +88,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenTurno, onReplayInt
     return () => cancelAnimationFrame(animId);
   }, [targetPos]);
 
-  // 3. Renderizado Canvas con una sola imagen y parallax sutil
+  // 3. Renderizado Canvas con parallax sutil y slider
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -83,7 +96,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenTurno, onReplayInt
     if (!ctx) return;
 
     const img = new Image();
-    img.src = TERA_IMAGE_URL;
+    img.src = HERO_IMAGES[currentImageIndex];
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -158,7 +171,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenTurno, onReplayInt
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
     };
-  }, [scrollProgress]);
+  }, [scrollProgress, currentImageIndex]);
 
   return (
     <section
