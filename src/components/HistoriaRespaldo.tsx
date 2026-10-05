@@ -281,7 +281,7 @@ export const HistoriaRespaldo: React.FC<HistoriaRespaldoProps> = ({
           <article className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
             <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6k9dEfHlj6We-ZJj0leS7cE1I8KeO30Ox_8UGF7hBnuamLvLA2Nc8KWdQvUBBYsPr2HtU9TMQN-6zYeETKk40qEovynfp6DT6DLx38rH6QAL-J3323DgiBdUiTFo-a8T9etWqu-5Osw8LqE3MeZWycY1TTRExm-bMDFl71gDCIv5fY6tnFiCbTZAtgVfO1mOW2IdoegcI4wkP251-67xAzY4YtI1tLrnfNeFzz5jNfjD4eyzNV0Hdww"
+                src="/Chapa%20y%20carrocer%C3%ADa.JPG"
                 alt="Entrega de 0km Autoahorro"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -312,7 +312,7 @@ export const HistoriaRespaldo: React.FC<HistoriaRespaldoProps> = ({
           <article className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
             <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWIOlNXT8SXAz4b4F3LddQJz1DPOco-w730W_viuiT8n0ddPTBWMLH5eMICcc6k0k66-x70vn3aZ8VgYbOubhqSBV_no3yeqvJ-aCeLDsybtbybF08nwzU1AjhkWRJZNlZTQQUO1mlaDv5DLTH0M7WY_MMv7ljjsnv1KfcgbrHVrg5_Us7-lKBZrTu7NPfe3XRvy_9GWfsFpuGsWIJDHHyjFzFw8N4p-XCnoSFQcI5-bAtrk1NUCdSgQ"
+                src="/Área%20de%20Pintura%205.jpg"
                 alt="Flotas Corporativas Amarok"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -343,7 +343,7 @@ export const HistoriaRespaldo: React.FC<HistoriaRespaldoProps> = ({
           <article className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
             <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHIbgC8bvk6NnebsNXavF52gywDj20ez-lrpp9jWZL9S9YJQkUybFMhJjwfxiz74bhswIlanAPEfG9lhF2jocinmTzRsXBpqjakINzJqgiF_VsnyGfZ3zLF8dJJ8JcuewS2W3qw19WhUBaS9OhrB_KVLlqZUp4qjww1eGwr41uu3_aANhZRBdR602EHbS3I7-xtMHf6-CwWlJ32DNcOTh03euPu9wXS14vJHzFuEn6HbaBo3aa0krQS0ZBurGYRHc59mnkyeehOyLDfVM"
+                src="/WhatsApp%20Image%202026-10-03%20at%2021.01.02.jpeg"
                 alt="Fachada Sucursal San Justo"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -374,7 +374,7 @@ export const HistoriaRespaldo: React.FC<HistoriaRespaldoProps> = ({
           <article className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
             <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt7bNrIj7OhYFB0t2lCe_eIjPPjsUNHaywdaMk1DH1ttb3HYk9PCM7iTSwi6Yyl1sPI7ewTpSq5HFReiW7_Yph4bW0broAh5TIxBsWuBt_4pmRb_74ANv5At8aHtl8gT5gf4zKas4A6rpEU_v8O0cEmjmYhnjLKG0jlK7ytUNbv2lolYIIR2PitJthNq4vS7_y46qLM9X8WgZAFE-i6-rJUPPts60nXez-UrJ_r__Vn8EpyKHgFoBGVAXOO6DrISrRk5HwGnjoWhS-6Hc"
+                src="/Entrada.jpg"
                 alt="Cabina de Pintura Homologada CESVI"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />

@@ -331,7 +331,7 @@ export const ServiciosYCanales: React.FC<ServiciosYCanalesProps> = ({
               <div
                 className="h-52 bg-cover bg-center"
                 style={{
-                  backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuBt7bNrIj7OhYFB0t2lCe_eIjPPjsUNHaywdaMk1DH1ttb3HYk9PCM7iTSwi6Yyl1sPI7ewTpSq5HFReiW7_Yph4bW0broAh5TIxBsWuBt_4pmRb_74ANv5At8aHtl8gT5gf4zKas4A6rpEU_v8O0cEmjmYhnjLKG0jlK7ytUNbv2lolYIIR2PitJthNq4vS7_y46qLM9X8WgZAFE-i6-rJUPPts60nXez-UrJ_r__Vn8EpyKHgFoBGVAXOO6DrISrRk5HwGnjoWhS-6Hc")`
+                  backgroundImage: `url("/Entrada.jpg")`
                 }}
               />
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -363,7 +363,7 @@ export const ServiciosYCanales: React.FC<ServiciosYCanalesProps> = ({
               <div
                 className="h-52 bg-cover bg-center"
                 style={{
-                  backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHIbgC8bvk6NnebsNXavF52gywDj20ez-lrpp9jWZL9S9YJQkUybFMhJjwfxiz74bhswIlanAPEfG9lhF2jocinmTzRsXBpqjakINzJqgiF_VsnyGfZ3zLF8dJJ8JcuewS2W3qw19WhUBaS9OhrB_KVLlqZUp4qjww1eGwr41uu3_aANhZRBdR602EHbS3I7-xtMHf6-CwWlJ32DNcOTh03euPu9wXS14vJHzFuEn6HbaBo3aa0krQS0ZBurGYRHc59mnkyeehOyLDfVM")`
+                  backgroundImage: `url("/WhatsApp%20Image%202026-10-03%20at%2021.01.02.jpeg")`
                 }}
               />
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -395,7 +395,7 @@ export const ServiciosYCanales: React.FC<ServiciosYCanalesProps> = ({
               <div
                 className="h-52 bg-cover bg-center"
                 style={{
-                  backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwEk7ewf1xOFeIhux9qy0H9fjpG21nECv-248k43MNdytz2cuemwXnljyEaLKwqT-MtwEHASiTpqsxXXxs4rfPNudsdnPq9G5PZhkVWvgzKUsPIRnPE9IXfdCQFTR6qPQe1BT9MjGfZWZM5We7w9y2pRPIHsfEuWCuMoTltQig0_OeMI3o4S3FTk46xnPNBb7Tz2o3I8KF_gisestKfG0KBXRWcjfLIV7XDFJXZuNbPfqhXd-0oaQQTf5M9bqyTtQtoz5429hlsKuNr3I")`
+                  backgroundImage: `url("/Boxes%20de%20Servicio.JPG")`
                 }}
               />
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -508,7 +508,7 @@ export const ServiciosYCanales: React.FC<ServiciosYCanalesProps> = ({
             <div className="bg-slate-50 rounded-3xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all duration-300 group">
               <div className="relative aspect-video w-full overflow-hidden bg-slate-200">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6k9dEfHlj6We-ZJj0leS7cE1I8KeO30Ox_8UGF7hBnuamLvLA2Nc8KWdQvUBBYsPr2HtU9TMQN-6zYeETKk40qEovynfp6DT6DLx38rH6QAL-J3323DgiBdUiTFo-a8T9etWqu-5Osw8LqE3MeZWycY1TTRExm-bMDFl71gDCIv5fY6tnFiCbTZAtgVfO1mOW2IdoegcI4wkP251-67xAzY4YtI1tLrnfNeFzz5jNfjD4eyzNV0Hdww"
+                  src="/Chapa%20y%20carrocer%C3%ADa.JPG"
                   alt="Entrega de 0km Autoahorro Volkswagen"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -564,7 +564,7 @@ export const ServiciosYCanales: React.FC<ServiciosYCanalesProps> = ({
             <div className="bg-slate-50 rounded-3xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all duration-300 group" id="corporativo">
               <div className="relative aspect-video w-full overflow-hidden bg-slate-200">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWIOlNXT8SXAz4b4F3LddQJz1DPOco-w730W_viuiT8n0ddPTBWMLH5eMICcc6k0k66-x70vn3aZ8VgYbOubhqSBV_no3yeqvJ-aCeLDsybtbybF08nwzU1AjhkWRJZNlZTQQUO1mlaDv5DLTH0M7WY_MMv7ljjsnv1KfcgbrHVrg5_Us7-lKBZrTu7NPfe3XRvy_9GWfsFpuGsWIJDHHyjFzFw8N4p-XCnoSFQcI5-bAtrk1NUCdSgQ"
+                  src="/Área%20de%20Pintura%205.jpg"
                   alt="Flotas Corporativas Amarok LNG Olivieri"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
