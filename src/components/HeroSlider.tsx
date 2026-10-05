@@ -267,18 +267,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenTurno, onReplayInt
               <span>Agendar Turno</span>
             </button>
 
-            {onReplayIntro && (
-              <button
-                type="button"
-                onClick={onReplayIntro}
-                className="inline-flex items-center gap-1.5 px-4 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-[#00d2ff] font-heading font-semibold text-xs border border-cyan-500/30 transition-colors cursor-pointer shadow-sm"
-                title="Reproducir animación de intro de 2 segundos"
-              >
-                <span className="material-symbols-outlined text-[16px]">play_circle</span>
-                <span>Ver Intro (2s)</span>
-              </button>
-            )}
-
+            {/* Removed Replay Intro Button */}
             <a
               href="#gama-modelos"
               className="inline-flex items-center gap-1 px-3 py-3.5 text-slate-300 hover:text-white font-heading font-semibold text-xs transition-colors"

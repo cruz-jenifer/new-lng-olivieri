@@ -271,6 +271,47 @@ export const ServiciosYCanales: React.FC<ServiciosYCanalesProps> = ({
       </section>
 
       {/* ====================================================
+          NUEVA SECCIÓN: GALERÍA DE INSTALACIONES
+          ==================================================== */}
+      <section className="w-full bg-[#f7f9fb] py-16 border-t border-slate-200">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center">
+            <span className="text-xs uppercase tracking-widest text-[#005bc0] font-bold block mb-2">
+              Nuestras Instalaciones
+            </span>
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#081224] tracking-tight">
+              Conocé Nuestro Taller
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="rounded-2xl overflow-hidden shadow-md aspect-video bg-black">
+              <video src="/Boxes%20de%20Servicio.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" />
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
+              <img src="/Boxes%20de%20Servicio.JPG" alt="Boxes de Servicio" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
+              <img src="/Chapa%20y%20carrocer%C3%ADa.JPG" alt="Chapa y carrocería" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
+              <img src="/Entrada.jpg" alt="Entrada" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            
+            <div className="rounded-2xl overflow-hidden shadow-md aspect-video lg:col-span-2 bg-black">
+              <video src="/%C3%81rea%20de%20Pintura.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" />
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
+              <img src="/%C3%81rea%20de%20lavado%20de%20veh%C3%ADculos%202.jpg" alt="Área de lavado de vehículos" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
+              <img src="/%C3%81rea%20de%20Pintura%207.jpg" alt="Área de Pintura" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================
           SUBSECCIÓN 3: RED TÉCNICA / ENCONTRÁ TU TALLER
           ==================================================== */}
       <section className="w-full bg-white py-16 border-t border-slate-200" id="encontra-tu-taller">

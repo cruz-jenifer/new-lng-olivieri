@@ -73,7 +73,6 @@ export default function App() {
         {/* 2. Hero (Slider principal + Canvas background con mouse sutil) */}
         <HeroSlider
           onOpenTurno={() => handleOpenTurno('central')}
-          onReplayIntro={() => setShowIntro(true)}
         />
 
         {/* 3. Gama 0km (Modelos Volkswagen) */}
@@ -120,17 +119,6 @@ export default function App() {
 
       {/* WhatsApp Flotante */}
       <FloatingWhatsApp />
-
-      {/* Botón flotante accesible para volver a ver la Intro de 2 segundos en cualquier momento */}
-      <button
-        type="button"
-        onClick={() => setShowIntro(true)}
-        className="fixed bottom-6 left-6 z-40 bg-[#081224]/90 hover:bg-[#005bc0] text-white text-xs font-bold px-3 py-2 rounded-xl shadow-lg border border-white/20 backdrop-blur-md flex items-center gap-1.5 transition-all cursor-pointer hover:scale-105"
-        title="Reproducir animación de intro estilo Netflix (2s)"
-      >
-        <span className="material-symbols-outlined text-[16px] text-[#00d2ff]">play_circle</span>
-        <span>Intro 2s</span>
-      </button>
 
       {/* Efectos de scroll */}
       <ScrollEffects />
