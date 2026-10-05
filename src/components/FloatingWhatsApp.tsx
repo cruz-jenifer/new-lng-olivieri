@@ -32,7 +32,7 @@ export const FloatingWhatsApp: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+    <div className="fixed bottom-20 right-6 z-40 flex flex-col items-end">
       {isOpen && (
         <div className="mb-3 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
           <div className="bg-[#128C7E] text-white p-4">
