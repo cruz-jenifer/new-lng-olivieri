@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LNG Olivieri - Concesionario Oficial Volkswagen</title>
+    <meta name="description" content="Sitio oficial de LNG Olivieri, concesionario oficial Volkswagen en Argentina. Gama 0km, ofertas comerciales, usados garantizados, servicios oficiales, Autoahorro y ventas corporativas." />
+    <meta property="og:title" content="LNG Olivieri - Concesionario Oficial Volkswagen" />
+    <meta property="og:description" content="Sitio oficial de LNG Olivieri, concesionario oficial Volkswagen en Argentina. Gama 0km, ofertas comerciales, usados garantizados, servicios oficiales, Autoahorro y ventas corporativas." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  </head>
+  <body class="bg-[#f7f9fb] text-[#191c1e] antialiased selection:bg-[#005bc0] selection:text-white">
+    <!-- ==========================================================================
+         INTRO OVERLAY ULTRA RÁPIDA ESTILO NETFLIX (2.0 SEGUNDOS EXACTOS)
+         ========================================================================== -->
+    <style id="intro-styles">
+      body.intro-locked {
+        overflow: hidden !important;
+        touch-action: none !important;
+      }
+
+      #intro-loader {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000000;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        pointer-events: all;
+        animation: introOverlayFade 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.4s forwards;
+        will-change: opacity, transform;
+      }
+
+      /* Fondo con gradiente y partículas estelares */
+      .intro-backdrop {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(0, 91, 192, 0.22) 0%, rgba(0, 0, 0, 0.98) 75%, #000000 100%);
+        pointer-events: none;
+      }
+
+      /* Ráfagas de luz vertical / Túnel de velocidad estilo Netflix */
+      .intro-light-tunnel {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        animation: introTunnelFlash 0.8s cubic-bezier(0.7, 0, 0.84, 0) 0.6s forwards;
+        will-change: opacity, transform;
+      }
+
+      .intro-v-beam {
+        position: absolute;
+        top: -20%;
+        bottom: -20%;
+        width: 2px;
+        background: linear-gradient(180deg, transparent, rgba(0, 210, 255, 0.9), #ffffff, rgba(0, 91, 192, 0.9), transparent);
+        box-shadow: 0 0 16px rgba(0, 210, 255, 0.8), 0 0 30px rgba(0, 91, 192, 0.6);
+        border-radius: 999px;
+      }
+
+      .b-1 { left: 18%; width: 3px; animation: beamDrop 0.6s linear 0.65s infinite; }
+      .b-2 { left: 28%; width: 1.5px; animation: beamDrop 0.45s linear 0.6s infinite; }
+      .b-3 { left: 38%; width: 4px; animation: beamDrop 0.55s linear 0.7s infinite; }
+      .b-4 { left: 47%; width: 2px; animation: beamDrop 0.4s linear 0.62s infinite; }
+      .b-5 { left: 53%; width: 2.5px; animation: beamDrop 0.48s linear 0.64s infinite; }
+      .b-6 { left: 62%; width: 5px; animation: beamDrop 0.52s linear 0.68s infinite; }
+      .b-7 { left: 74%; width: 1.5px; animation: beamDrop 0.42s linear 0.61s infinite; }
+      .b-8 { left: 84%; width: 3.5px; animation: beamDrop 0.58s linear 0.66s infinite; }
+
+      /* Destello de choque radial */
+      .intro-warp-burst {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 140vmax;
+        height: 140vmax;
+        transform: translate(-50%, -50%) scale(0);
+        background: radial-gradient(circle, rgba(0, 210, 255, 0.45) 0%, rgba(0, 91, 192, 0.25) 30%, transparent 65%);
+        animation: warpBurst 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) 0.62s forwards;
+        pointer-events: none;
+      }
+
+      /* Contenedor central del Logo */
+      .intro-logo-container {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform-origin: center center;
+        will-change: transform, opacity, filter;
+        animation: introLogoRebound 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards,
+                   introLogoZoomOut 0.8s cubic-bezier(0.7, 0, 0.84, 0) 0.6s forwards;
+      }
+
+      /* Isotipo Vectorial Oficial VW */
+      .intro-vw-emblem {
+        width: 120px;
+        height: 120px;
+        color: #ffffff;
+        filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.8)) drop-shadow(0 0 45px rgba(0, 91, 192, 0.6));
+        animation: emblemGlowPulse 0.6s ease-in-out infinite alternate;
+      }
+
+      /* Tipografía de marca */
+      .intro-title {
+        margin-top: 18px;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 800;
+        font-size: 26px;
+        letter-spacing: -0.02em;
+        color: #ffffff;
+        text-shadow: 0 0 15px rgba(0, 210, 255, 0.7), 0 0 35px rgba(0, 91, 192, 0.5);
+      }
+
+      .intro-subtitle {
+        margin-top: 4px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 9px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: #adc6ff;
+        opacity: 0.9;
+        text-shadow: 0 0 10px rgba(0, 91, 192, 0.8);
+      }
+
+      /* Destello de haz cinematográfico */
+      .intro-lens-flare {
+        position: absolute;
+        top: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 2px;
+        background: #00d2ff;
+        box-shadow: 0 0 20px 6px #00d2ff, 0 0 40px 12px #005bc0;
+        border-radius: 50%;
+        opacity: 0;
+        animation: flareFlash 0.5s ease-out 0.2s forwards;
+      }
+
+      /* ==========================================================================
+         KEYFRAMES DE ANIMACIÓN COREOGRAFIADA (0.0s a 2.0s)
+         ========================================================================== */
+      /* 0.0s a 0.6s: Aparición con rebote elástico */
+      @keyframes introLogoRebound {
+        0% {
+          opacity: 0;
+          transform: scale(0.85);
+          filter: brightness(0.6) blur(4px);
+        }
+        70% {
+          opacity: 1;
+          transform: scale(1.04);
+          filter: brightness(1.3) blur(0px);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.0);
+          filter: brightness(1.0) blur(0px);
+        }
+      }
+
+      /* 0.6s a 1.4s: Zoom in violento Netflix atravesando la pantalla */
+      @keyframes introLogoZoomOut {
+        0% {
+          transform: scale(1.0);
+          opacity: 1;
+          filter: brightness(1.0);
+        }
+        40% {
+          transform: scale(1.8);
+          opacity: 1;
+          filter: brightness(2.2) drop-shadow(0 0 50px #00d2ff);
+        }
+        100% {
+          transform: scale(16);
+          opacity: 0;
+          filter: brightness(3.5) blur(10px);
+        }
+      }
+
+      @keyframes emblemGlowPulse {
+        0% {
+          filter: drop-shadow(0 0 18px rgba(0, 210, 255, 0.7)) drop-shadow(0 0 35px rgba(0, 91, 192, 0.5));
+        }
+        100% {
+          filter: drop-shadow(0 0 32px rgba(0, 210, 255, 1)) drop-shadow(0 0 60px rgba(0, 91, 192, 0.9));
+        }
+      }
+
+      @keyframes flareFlash {
+        0% { opacity: 0; transform: translateX(-50%) scaleX(0.2); }
+        50% { opacity: 1; transform: translateX(-50%) scaleX(1.8); }
+        100% { opacity: 0; transform: translateX(-50%) scaleX(2.5); }
+      }
+
+      @keyframes introTunnelFlash {
+        0% { opacity: 0; }
+        25% { opacity: 0.9; }
+        70% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
+      @keyframes beamDrop {
+        0% { transform: translateY(-100%); opacity: 0; }
+        30% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translateY(100%); opacity: 0; }
+      }
+
+      @keyframes warpBurst {
+        0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
+        40% { opacity: 0.9; }
+        100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+      }
+
+      /* 1.4s a 2.0s: Desvanecimiento final del overlay */
+      @keyframes introOverlayFade {
+        0% {
+          opacity: 1;
+          visibility: visible;
+        }
+        100% {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      /* Accesibilidad: prefers-reduced-motion */
+      @media (prefers-reduced-motion: reduce) {
+        #intro-loader {
+          animation: introOverlayFade 0.2s ease-out 0.1s forwards !important;
+        }
+        .intro-logo-container {
+          animation: none !important;
+          transform: scale(1) !important;
+          opacity: 1 !important;
+        }
+        .intro-light-tunnel, .intro-warp-burst, .intro-lens-flare {
+          display: none !important;
+        }
+      }
+    </style>
+
+    <!-- Overlay de Introducción -->
+    <div id="intro-loader" aria-hidden="true">
+      <div class="intro-backdrop"></div>
+      
+      <!-- Haces verticales y túnel de luz -->
+      <div class="intro-light-tunnel">
+        <div class="intro-v-beam b-1"></div>
+        <div class="intro-v-beam b-2"></div>
+        <div class="intro-v-beam b-3"></div>
+        <div class="intro-v-beam b-4"></div>
+        <div class="intro-v-beam b-5"></div>
+        <div class="intro-v-beam b-6"></div>
+        <div class="intro-v-beam b-7"></div>
+        <div class="intro-v-beam b-8"></div>
+        <div class="intro-warp-burst"></div>
+      </div>
+
+      <!-- Logotipo e Isotipo -->
+      <div class="intro-logo-container">
+        <div class="intro-lens-flare"></div>
+        <svg class="intro-vw-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="4.5" />
+          <circle cx="50" cy="50" r="41.5" stroke="currentColor" stroke-width="1.5" stroke-opacity="0.5" />
+          <path d="M30 26 L46.5 64 L50 64 L53.5 64 L70 26 L63 26 L50 56 L37 26 Z" fill="currentColor" />
+          <path d="M22 44 L37.5 76 L42 76 L50 57.5 L58 76 L62.5 76 L78 44 L71 44 L59 69 L51.5 52 L48.5 52 L41 69 L29 44 Z" fill="currentColor" />
+        </svg>
+        <div class="intro-title">LNG Olivieri</div>
+        <div class="intro-subtitle">Concesionario Oficial Volkswagen</div>
+      </div>
+    </div>
+
+    <!-- Script de Control de 2.0s (Se ejecuta siempre durante 2.0 segundos exactos) -->
+    <script>
+      (function() {
+        var loader = document.getElementById('intro-loader');
+        if (!loader) return;
+
+        // Bloquear scroll del body durante la intro
+        document.body.classList.add('intro-locked');
+
+        // Chequeo de prefers-reduced-motion
+        var isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var INTRO_DURATION_MS = isReducedMotion ? 250 : 2000; // EXACTAMENTE 2.0 SEGUNDOS
+
+        // Temporizador calibrado a 2.0s exactos
+        setTimeout(function() {
+          document.body.classList.remove('intro-locked');
+          document.body.style.overflow = 'auto';
+          if (loader && loader.parentNode) {
+            loader.remove();
+          }
+        }, INTRO_DURATION_MS);
+
+        // Función global para poder volver a ver la intro en cualquier momento
+        window.playLngIntro = function() {
+          window.location.reload();
+        };
+      })();
+    </script>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

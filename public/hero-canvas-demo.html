@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Interactivo con Scroll & Canvas - LNG Olivieri Volkswagen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <style>
+    /* ==========================================================================
+       RESET Y VARIABLES GLOBALES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-primary: #081224;
+      --color-vw-blue: #005bc0;
+      --color-vw-blue-hover: #004493;
+      --color-accent-cyan: #00d2ff;
+      --color-text-white: #ffffff;
+      --color-text-muted: #94a3b8;
+      --color-bg-light: #f7f9fb;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--color-primary);
+      color: var(--color-text-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       CABECERA FIJA MINIMALISTA
+       ========================================================================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      background: linear-gradient(180deg, rgba(8, 18, 36, 0.85) 0%, rgba(8, 18, 36, 0) 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--color-text-white);
+    }
+
+    .header-logo-vw {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid rgba(255, 255, 255, 0.2);
+      padding-left: 14px;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-sub {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-header-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background-color: #128C7E;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .btn-header-wa:hover {
+      background-color: #0e7064;
+      transform: translateY(-1px);
+    }
+
+    .btn-header-wa img {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ==========================================================================
+       CONTENEDOR EXTENDIDO DEL HERO (SCROLL TRACK: 350vh)
+       ========================================================================== */
+    .hero-scroll-container {
+      position: relative;
+      width: 100%;
+      height: 350vh; /* Altura extendida para recorrido fluido */
+    }
+
+    /* Elemento Sticky/Fixed a pantalla completa */
+    .hero-sticky-frame {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    /* Canvas inmersivo de fondo */
+    #hero-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+    }
+
+    /* Degradado sutil de legibilidad */
+    .canvas-overlay-scrim {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 75% 50%, rgba(8, 18, 36, 0.2) 0%, rgba(8, 18, 36, 0.85) 100%),
+                  linear-gradient(90deg, rgba(8, 18, 36, 0.95) 0%, rgba(8, 18, 36, 0.5) 45%, rgba(8, 18, 36, 0.1) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       CAPAS DE CONTENIDO FLOTANTE POR FASES DE SCROLL
+       ========================================================================== */
+    .ui-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 8vw;
+      pointer-events: none;
+    }
+
+    .stage-content {
+      max-width: 650px;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      will-change: opacity, transform;
+    }
+
+    /* Estado 1: 0% a 30% (Lanzamiento Nuevo Tera) */
+    #stage-1 {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Estado 2: 40% a 80% (Ingeniería y Confort Asegurado) */
+    #stage-2 {
+      opacity: 0;
+      transform: translateY(40px);
+      pointer-events: none;
+    }
+
+    /* Elementos tipográficos */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 30px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+
+    .badge-blue {
+      background-color: var(--color-vw-blue);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0, 91, 192, 0.4);
+    }
+
+    .badge-cyan {
+      background: rgba(0, 210, 255, 0.15);
+      color: #67e8f9;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.5vw, 4.8rem);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #ffffff 40%, var(--color-accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background-color: var(--color-vw-blue);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 25px rgba(0, 91, 192, 0.45);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-vw-blue-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 91, 192, 0.6);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: 12px;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Indicador de scroll interactivo */
+    .scroll-indicator-container {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .scroll-mouse {
+      width: 22px;
+      height: 34px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 15px;
+      position: relative;
+    }
+
+    .scroll-wheel {
+      width: 4px;
+      height: 7px;
+      background-color: var(--color-accent-cyan);
+      border-radius: 2px;
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: wheelMove 1.8s infinite;
+    }
+
+    @keyframes wheelMove {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      75% { opacity: 0; transform: translate(-50%, 12px); }
+      100% { opacity: 0; transform: translate(-50%, 0); }
+    }
+
+    .scroll-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Barra de progreso de scroll */
+    .scroll-progress-bar {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-vw-blue), var(--color-accent-cyan));
+      width: 0%;
+      z-index: 101;
+      transition: width 0.1s ease-out;
+    }
+
+    /* Botón de accesibilidad / reduced motion */
+    .motion-toggle {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 99;
+      background: rgba(8, 18, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease;
+    }
+
+    .motion-toggle:hover {
+      background: rgba(8, 18, 36, 0.95);
+    }
+
+    /* ==========================================================================
+       SIGUIENTE SECCIÓN (TRANSICIÓN SUAVE A FONDO CLARO)
+       ========================================================================== */
+    .next-section {
+      position: relative;
+      z-index: 20;
+      background-color: var(--color-bg-light);
+      color: var(--color-primary);
+      padding: 100px 8vw;
+      min-height: 100vh;
+      border-top: 1px solid #e2e8f0;
+      box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .next-section h2 {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .next-section p {
+      color: #64748b;
+      max-width: 600px;
+      font-size: 1rem;
+      margin-bottom: 40px;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .catalog-card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(8, 18, 36, 0.04);
+    }
+
+    .catalog-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    /* Reduced Motion fallback */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-scroll-container {
+        height: 100vh;
+      }
+      .scroll-wheel {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div class="scroll-progress-bar" id="progressBar"></div>
+
+  <!-- Encabezado fijo minimalista -->
+  <header class="site-header">
+    <a href="#" class="header-brand">
+      <img 
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjfja2nEVXymqpr-JgKJLa0P1PiOMbwRB3a2b83_00pnxFd0dHZz85lLgYugK3L82lzWhJlSf0Cp8NXwfG9750c2SSPZLJ_D-0Toh403Wvnz2DutV1Exqrg1dzf1pOKJSxngPKc9Empn6Vz95doalmiLeoyAuIbPuBAcEEiRUYR7CDuOEbwbSH2wRUrLjfSqFSMVwD-z_Yd5eL_U9CSZrkueoqJrbgDTHrivg5m8g_Q6yHqwtKGm6m2QRH0V8ZUdXiUHg" 
+        alt="Volkswagen Logo" 
+        class="header-logo-vw"
+      />
+      <div class="brand-text">
+        <span class="brand-name">LNG OLIVIERI</span>
+        <span class="brand-sub">Concesionario Oficial</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <a href="https://wa.me/5491146580000" target="_blank" rel="noopener noreferrer" class="btn-header-wa">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiMDsLYdIkcCYnmvjy7QTsGnswlj9W5eJrJv7qufR22spVIsTQf9WAZ0YZj20wguNBMoSj1jVmoaR7Q5564MUAGbGXgr0O4-4obVoVTrTSQrTZ4OmuBVgBAYy8kBLWuESZPULrXlDoS9bJUkkgoqTLp2pjmE2pf1fMg-PZI349Gmdfidptn8HdZRA_36_0OS3faSOicpAtiIktgafG6OTyuxt5bl8UF7AJtw9mwnvGRw3EndX9TGm8IKFj0456MYecZcc" alt="WA">
+        <span>WhatsApp</span>
+      </a>
+      <button class="btn-primary" style="padding: 8px 16px; font-size: 0.75rem;" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">
+        Modelos 0km
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR EXTENDIDO (SCROLL TRACK DE 350vh) -->
+  <main class="hero-scroll-container" id="heroScrollContainer">
+    <div class="hero-sticky-frame">
+      
+      <!-- Canvas de Fondo (Sincronizado con el Scroll) -->
+      <canvas id="hero-canvas"></canvas>
+      
+      <!-- Degradado de contraste para textos -->
+      <div class="canvas-overlay-scrim" id="canvasScrim"></div>
+
+      <!-- FASE 1: 0% a 35% de Scroll -->
+      <div class="ui-stage" id="stage-1">
+        <div class="stage-content">
+          <span class="badge-pill badge-blue">
+            <span class="material-symbols-outlined" style="font-size: 14px;">bolt</span>
+            Lanzamiento Exclusivo 2025
+          </span>
+          <h1 class="hero-title">
+            Nuevo <span class="gradient-text">Tera.</span>
+          </h1>
+          <p class="hero-desc">
+            El nuevo ícono de Volkswagen. Vanguardia compacta, diseño audaz y la última generación de conectividad inteligente VW Play.
+          </p>
+          <div class="hero-actions">
+            <a href="#catalogo" class="btn-primary" onclick="alert('Iniciando asesoramiento de Preventa Tera');">
+              <span>Consultar Preventa</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+            </a>
+            <a href="#catalogo" class="btn-outline">
+              <span>Conocé más</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 2: 40% a 80% de Scroll -->
+      <div class="ui-stage" id="stage-2">
+        <div class="stage-content">
+          <span class="badge-pill badge-cyan">
+            <span class="material-symbols-outlined" style="font-size: 14px;">verified_user</span>
+            Ingeniería Alemana & Seguridad
+          </span>
+          <h2 class="hero-title">
+            Confort y Precisión <span class="gradient-text">Asegurados.</span>
+          </h2>
+          <p class="hero-desc">
+            Motorización 1.0 TSI Turbo, asistentes de conducción activa IQ.Drive y espacio interior diseñado para elevar tu experiencia de manejo en ciudad y ruta.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="alert('Coordinando Test Drive en LNG Olivieri');">
+              <span class="material-symbols-outlined" style="font-size: 16px;">calendar_month</span>
+              <span>Agendar Test Drive</span>
+            </button>
+            <a href="#catalogo" class="btn-outline">
+              <span>Ver Ficha Técnica</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicador interactivo de scroll -->
+      <div class="scroll-indicator-container" id="scrollIndicator">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+        <span class="scroll-label">Hacé scroll para avanzar</span>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Botón accesible de reducción de movimiento -->
+  <button class="motion-toggle" id="motionToggle" type="button" aria-label="Alternar reducción de movimiento">
+    <span class="material-symbols-outlined" style="font-size: 14px;">motion_photos_off</span>
+    <span id="motionToggleText">Modo Reducido: Desactivado</span>
+  </button>
+
+  <!-- SIGUIENTE SECCIÓN DE CATÁLOGO (Transición suave al fondo blanco) -->
+  <section class="next-section" id="catalogo">
+    <h2>Gama Oficial Volkswagen</h2>
+    <p>Descubrí toda la línea de vehículos disponibles para entrega inmediata y financiación subsidiada en LNG Olivieri.</p>
+
+    <div class="catalog-grid">
+      <div class="catalog-card">
+        <h3>Nuevo Tera 2025</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 14px;">Segmento A0 SUV • 1.0 TSI Turbo • 101 CV</p>
+        <button class="btn-primary" style="width: 100%; justify-content: center;">Cotizar Unidad</button>
+      </div>
+      <div class="catalog-card">
+        <h3>Taos Highline</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 14px;">SUV Mediano Nacional • 250 TSI 1.4 Turbo • 150 CV</p>
+        <button class="btn-primary" style="width: 100%; justify-content: center;">Cotizar Unidad</button>
+      </div>
+      <div class="catalog-card">
+        <h3>Nueva Amarok V6</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 14px;">Pick-Up 4Motion • 3.0 V6 Turbo • 258 CV</p>
+        <button class="btn-primary" style="width: 100%; justify-content: center;">Cotizar Unidad</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MOTOR JAVASCRIPT: CANVAS INTERACTIVO SINCRONIZADO AL SCROLL
+       ========================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. SELECTORES DEL DOM
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      const container = document.getElementById('heroScrollContainer');
+      const stage1 = document.getElementById('stage-1');
+      const stage2 = document.getElementById('stage-2');
+      const scrollIndicator = document.getElementById('scrollIndicator');
+      const progressBar = document.getElementById('progressBar');
+      const scrim = document.getElementById('canvasScrim');
+      const motionToggle = document.getElementById('motionToggle');
+      const motionToggleText = document.getElementById('motionToggleText');
+
+      // 2. ESTADO DEL MOTOR
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let scrollProgress = 0; // De 0.0 a 1.0 a lo largo del hero
+      let targetProgress = 0; // Para interpolación suave (LERP)
+      let isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let animationFrameId = null;
+
+      // 3. CARGA DE FOTOGRAMAS (IMAGE PRELOADER PIPELINE)
+      // En producción real, este array contendría URLs de frames precargados (ej: frame_001.webp ... frame_120.webp)
+      const frameUrls = [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuCm2-hltm0IQKD_8gqUWLkhz2aNmgFopJJUdimrGSxdBUoSU1tSp3K_2NbUws57V_GBgdaqEjF9pYY2Y8e9QsW8-TRSoe-OpKmd0c2x7E32nxtbhkXYd2fw1DqY7cQgDKRxNopkE7VRJHauLESEEJBmK2K98bk77IbbImzh5nLHP_WuXect7jRbhsG92pF8Qb9BkaqZAWhJUEQ0dFogcXd9gyUqBgx4frTi0pn2p9U734j3DTAZn1SEnVIb1TPVx4y7DTZMY3Tp0NjWxj4"
+      ];
+      const preloadedImages = [];
+      let imagesLoadedCount = 0;
+
+      function preloadFrames() {
+        frameUrls.forEach((url, i) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = () => {
+            imagesLoadedCount++;
+          };
+          preloadedImages.push(img);
+        });
+      }
+      preloadFrames();
+
+      // 4. GESTIÓN DEL CANVAS & RETINA DISPLAY (DPR)
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2); // Limitado a 2 para preservar 60 FPS
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      // 5. CÁLCULO DE PROGRESO DE SCROLL RELATIVO AL HERO
+      function updateScrollProgress() {
+        const rect = container.getBoundingClientRect();
+        const totalScrollableDistance = container.offsetHeight - window.innerHeight;
+        const currentScroll = -rect.top;
+
+        if (totalScrollableDistance <= 0) {
+          targetProgress = 0;
+        } else {
+          targetProgress = Math.min(Math.max(currentScroll / totalScrollableDistance, 0), 1);
+        }
+
+        // Barra de progreso superior
+        if (progressBar) {
+          progressBar.style.width = (targetProgress * 100) + '%';
+        }
+      }
+      window.addEventListener('scroll', updateScrollProgress, { passive: true });
+      updateScrollProgress();
+
+      // 6. MOTOR DE RENDERIZADO VISUAL DEL VEHÍCULO Y TRANSICIÓN AL SHOWROOM
+      // Si no hay 120 fotogramas locales, genera el movimiento cinematográfico procedural:
+      function drawCinematicVehicleScene(progress) {
+        ctx.clearRect(0, 0, width, height);
+
+        // A. Fondo Crepuscular con gradiente dinámico
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
+        skyGrad.addColorStop(0, '#040d1a');
+        skyGrad.addColorStop(0.5, '#0a192f');
+        skyGrad.addColorStop(1, '#020617');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, width, height);
+
+        // B. Si la imagen base está cargada, la dibuja con escala progresiva (Push-in Camera)
+        const baseImg = preloadedImages[0];
+        if (baseImg && baseImg.complete && baseImg.naturalWidth > 0) {
+          // Push-in suave: escala del 1.0x hasta 3.8x centrado hacia la parrilla/emblema
+          const zoom = 1 + progress * 2.8;
+          
+          // Desplazamiento progresivo de la cámara hacia el centro del vehículo
+          const panX = (progress * (width * 0.15));
+          const panY = (progress * (height * 0.05));
+
+          ctx.save();
+          ctx.translate(width / 2 - panX, height / 2 - panY);
+          ctx.scale(zoom, zoom);
+
+          // Proporción cover
+          const imgAspect = baseImg.naturalWidth / baseImg.naturalHeight;
+          const canvasAspect = width / height;
+          let drawW, drawH;
+          if (canvasAspect > imgAspect) {
+            drawW = width;
+            drawH = width / imgAspect;
+          } else {
+            drawH = height;
+            drawW = height * imgAspect;
+          }
+
+          ctx.drawImage(baseImg, -drawW / 2, -drawH / 2, drawW, drawH);
+          ctx.restore();
+        }
+
+        // C. Capa de Efectos de Iluminación Dinámica IQ.Light
+        // Los faros LED emiten haces que crecen sutilmente con el avance
+        const flareAlpha = Math.max(0, 0.4 - progress * 0.3);
+        if (flareAlpha > 0) {
+          const flareGrad = ctx.createRadialGradient(width * 0.65, height * 0.55, 10, width * 0.65, height * 0.55, width * 0.35);
+          flareGrad.addColorStop(0, `rgba(0, 210, 255, ${flareAlpha})`);
+          flareGrad.addColorStop(0.4, `rgba(0, 91, 192, ${flareAlpha * 0.4})`);
+          flareGrad.addColorStop(1, 'transparent');
+          ctx.fillStyle = flareGrad;
+          ctx.fillRect(0, 0, width, height);
+        }
+
+        // D. Emblema Volkswagen & Destello Metálico Central (en fase 2: 40% a 75%)
+        if (progress > 0.35 && progress < 0.85) {
+          const emblemProgress = (progress - 0.35) / 0.5; // Normalizado 0 a 1
+          const emblemScale = 0.5 + emblemProgress * 2.5;
+          const emblemAlpha = Math.sin(emblemProgress * Math.PI) * 0.9;
+
+          ctx.save();
+          ctx.translate(width * 0.6, height * 0.52);
+          ctx.scale(emblemScale, emblemScale);
+          ctx.globalAlpha = emblemAlpha;
+
+          // Halo circular azul neón
+          const badgeGlow = ctx.createRadialGradient(0, 0, 15, 0, 0, 90);
+          badgeGlow.addColorStop(0, 'rgba(0, 210, 255, 0.8)');
+          badgeGlow.addColorStop(0.5, 'rgba(0, 91, 192, 0.3)');
+          badgeGlow.addColorStop(1, 'transparent');
+          ctx.fillStyle = badgeGlow;
+          ctx.beginPath();
+          ctx.arc(0, 0, 90, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Anillo cromado VW
+          ctx.lineWidth = 4;
+          ctx.strokeStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(0, 0, 36, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        // E. Transición hacia Showroom Iluminado (Fade-in a Blanco en 75% a 100%)
+        if (progress > 0.7) {
+          const showroomProgress = (progress - 0.7) / 0.3; // 0 a 1
+          ctx.save();
+          
+          // Fondo de alta luminosidad simulando showroom vidriado contemporáneo
+          const whiteGrad = ctx.createLinearGradient(0, 0, 0, height);
+          whiteGrad.addColorStop(0, `rgba(247, 249, 251, ${showroomProgress})`);
+          whiteGrad.addColorStop(1, `rgba(238, 242, 246, ${showroomProgress})`);
+          ctx.fillStyle = whiteGrad;
+          ctx.fillRect(0, 0, width, height);
+
+          // Reflejos en el piso pulido del concesionario
+          if (showroomProgress > 0.4) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${showroomProgress * 0.6})`;
+            ctx.fillRect(0, height * 0.65, width, height * 0.35);
+          }
+
+          ctx.restore();
+        }
+      }
+
+      // 7. GESTIÓN DE TEXTOS Y CAPAS UI SEGÚN EL SCROLL
+      function updateUIPhases(progress) {
+        // --- Fase 1: 0.0 a 0.35 ---
+        if (progress <= 0.35) {
+          const p = progress / 0.35; // 0 a 1
+          const opacity = Math.max(1 - p * 1.6, 0);
+          const translateY = -p * 50;
+
+          stage1.style.opacity = opacity;
+          stage1.style.transform = `translateY(${translateY}px)`;
+          stage1.style.pointerEvents = opacity > 0.2 ? 'auto' : 'none';
+        } else {
+          stage1.style.opacity = 0;
+          stage1.style.pointerEvents = 'none';
+        }
+
+        // --- Fase 2: 0.38 a 0.82 ---
+        if (progress >= 0.35 && progress <= 0.85) {
+          const p = (progress - 0.35) / 0.5; // 0 a 1
+          let opacity;
+          let translateY;
+
+          if (p < 0.2) {
+            // Entrada suave
+            opacity = p / 0.2;
+            translateY = 40 * (1 - opacity);
+          } else if (p > 0.8) {
+            // Salida suave
+            opacity = (1 - p) / 0.2;
+            translateY = -(p - 0.8) * 50;
+          } else {
+            // Plena visibilidad
+            opacity = 1;
+            translateY = 0;
+          }
+
+          stage2.style.opacity = opacity;
+          stage2.style.transform = `translateY(${translateY}px)`;
+          stage2.style.pointerEvents = opacity > 0.2 ? 'auto' : 'none';
+        } else {
+          stage2.style.opacity = 0;
+          stage2.style.pointerEvents = 'none';
+        }
+
+        // --- Indicador de mouse scroll ---
+        if (scrollIndicator) {
+          scrollIndicator.style.opacity = progress > 0.15 ? '0' : '1';
+        }
+
+        // --- Scrim de contraste ---
+        if (scrim) {
+          // Desvanece el scrim oscuro cuando transiciona al showroom blanco
+          if (progress > 0.75) {
+            scrim.style.opacity = Math.max(1 - ((progress - 0.75) / 0.2), 0);
+          } else {
+            scrim.style.opacity = '1';
+          }
+        }
+      }
+
+      // 8. BUCLE PRINCIPAL DE ANIMACIÓN (RAF CON LERP SUAVE)
+      function tick() {
+        if (isReducedMotion) {
+          // Modo estático accesible sin interpolación por scroll
+          drawCinematicVehicleScene(0);
+          updateUIPhases(0);
+          return;
+        }
+
+        // LERP: Interpolación lineal para suavizado cinemático
+        scrollProgress += (targetProgress - scrollProgress) * 0.1;
+
+        drawCinematicVehicleScene(scrollProgress);
+        updateUIPhases(scrollProgress);
+
+        animationFrameId = requestAnimationFrame(tick);
+      }
+      tick();
+
+      // 9. ACCESIBILIDAD (PREFERS-REDUCED-MOTION TOGGLE)
+      function updateMotionPreference(reduced) {
+        isReducedMotion = reduced;
+        motionToggleText.textContent = isReducedMotion ? 'Modo Reducido: Activo' : 'Modo Reducido: Desactivado';
+        if (isReducedMotion) {
+          if (animationFrameId) cancelAnimationFrame(animationFrameId);
+          drawCinematicVehicleScene(0);
+          updateUIPhases(0);
+        } else {
+          tick();
+        }
+      }
+
+      if (motionToggle) {
+        motionToggle.addEventListener('click', () => {
+          updateMotionPreference(!isReducedMotion);
+        });
+      }
+
+      // Escucha cambios del sistema en vivo
+      window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+        updateMotionPreference(e.matches);
+      });
+
+    })();
+  </script>
+</body>
+</html>

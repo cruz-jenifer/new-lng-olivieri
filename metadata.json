@@ -1,0 +1,6 @@
+{
+  "name": "LNG Olivieri - Concesionario Oficial Volkswagen",
+  "description": "Sitio oficial de LNG Olivieri, concesionario oficial Volkswagen en Argentina. Gama 0km, ofertas comerciales, usados garantizados, servicios oficiales, Autoahorro y ventas corporativas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
